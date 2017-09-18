@@ -12,6 +12,8 @@ namespace War
         /// C# version of War (pg 178)
         ///  - Ported from original program in book (MITS Altair BASIC)
         ///  - Output and algorithms are identical to original
+        ///  - Basic C# constructs used, e.g. array rather than list
+        ///  - No LINQ used
         ///  - Comments show original variable names (where useful)
         ///  
         /// C# version created by Sean Sexton, 18 Sep 2017
@@ -116,7 +118,72 @@ namespace War
         /// <param name="deck">Shuffled deck</param>
         static void Play(int[] deck)
         {
+            int nextCard = 0;   // P
+            int compScore = 0;  // A1
+            int plyrScore = 0;  // B1
 
+            bool keepPlaying = true;
+
+            while (keepPlaying)
+            {
+                keepPlaying = TakeTurn(deck, ref nextCard, ref compScore, ref plyrScore);
+            }
+
+            if (nextCard > 50)
+            {
+                Console.Write("\n\n");
+                Console.WriteLine($"YOU HAVE RUN OUT OF CARDS.  FINAL SCORE:  YOU-- {plyrScore} ; COMPUTER-- {compScore}");
+            }
+
+            Console.WriteLine("THANKS FOR PLAYING.  IT WAS FUN.");
+        }
+
+        static bool TakeTurn(int[] deck, ref int nextCard, ref int compScore, ref int plyrScore)
+        {
+            int plyrCard = deck[nextCard++];     // M1
+            int compCard = deck[nextCard++];     // M2
+
+            Console.WriteLine($"\nYOU: {cardData[plyrCard],-9}COMPUTER: {cardData[compCard]}");
+
+            int plyrValue =  (int) (((float)plyrCard + 0.5F) / 4.0F);   // M1
+            int compValue = (int) (((float)compCard + 0.5F) / 4.0F);    // M2
+
+            if (compValue > plyrValue)
+            {
+                compScore++;
+                Console.WriteLine($"COMPUTER WINS!!! YOU HAVE {plyrScore}  COMPUTER HAS {compScore}");
+            }
+            else if (compValue < plyrValue)
+            {
+                plyrScore++;
+                Console.WriteLine($"YOU WIN.  YOU HAVE {plyrScore}  COMPUTER HAS {compScore}");
+            }
+            else
+            {
+                Console.WriteLine($"TIE.  NO SCORE CHANGE.");
+            }
+
+            bool keepPlaying = false;
+            if (nextCard <= 50)
+            {
+                string cont;
+                do
+                {
+                    Console.Write("DO YOU WANT TO CONTINUE? ");
+                    cont = Console.ReadLine().ToLower();
+
+                    if (cont == "yes")
+                    {
+                        keepPlaying = true;
+                    }
+                    else if (cont != "no")
+                    {
+                        Console.Write("YES OR NO, PLEASE.  ");
+                    }
+                } while ((cont != "yes") && (cont != "no"));
+             }
+
+            return keepPlaying;
         }
 
         //-------------------------------------
