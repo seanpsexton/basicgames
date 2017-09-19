@@ -20,6 +20,8 @@ namespace War
         /// </summary>
         static void Main(string[] args)
         {
+            var c = new Card(SuitType.Club, RankType.Ten);
+
             PrintIntro();
             ShowDirections();
 
