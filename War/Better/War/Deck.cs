@@ -8,7 +8,16 @@ namespace War
     {
         public static Deck CreateDeck()
         {
-            return new Deck();
+            var deck = new Deck();
+            //foreach (SuitType s in SuitType)
+            //{
+            //    foreach (RankType r in RankType)
+            //    {
+
+            //    }
+            //}
+
+            return deck;
         }
 
         public List<Card> Cards { get; private set; }
